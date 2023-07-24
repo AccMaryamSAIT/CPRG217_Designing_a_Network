@@ -21,8 +21,7 @@ buffer_size = 1024
 EOF = ':EOF:'
 sep = '}}'
 
-filename = input('Please enter filename: ')
-print(filename)
+filename = 'path here'
 filesize = os.stat(filename)
 filesize = filesize.st_size
 
