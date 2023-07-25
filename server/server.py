@@ -1,3 +1,11 @@
+"""
+Name: Server.py
+Authors: Roman Kapitoulski, Eric Russon, Maryam Bunama
+Version: 1.0
+Date: July 25, 2023
+Description: This script recieves the JSON files sent by the Client.py program on client machines
+and stores it. It performs acknowledgement and error-checking throughout the process.
+"""
 
 import socket, time, hashlib, os, tqdm
 
@@ -6,25 +14,23 @@ server_port = 5000
 buffer_size = 1024
 sep = '}}'
 
-server_socket = socket.socket() # Or use with socket.socket(variables) as s
+server_socket = socket.socket() 
 server_socket.bind((client_ip, server_port)) # Make server remember this connection
-server_socket.listen(5) # Keep out for any messages. Int value defines how many parallel connections does the server allow. aka how many PCs connect at the same time.
-print(f'Listening for message on {server_port} from {client_ip}...') # If the connection was made this will print. Otherwise an error prints instead. The program cannot move on until the connection is made.
+server_socket.listen(5) # Keep out for any messages.
+print(f'Listening for message on {server_port} from {client_ip}...') # If the connection was made this will print. Otherwise an error prints instead. 
 
-client_socket, client_ip = server_socket.accept() # allows us to accept the connection
+client_socket, client_ip = server_socket.accept() # Allow program to accept the connection
 print(f'Accepted connection from {client_ip}.')
 
-# use client socket for everything here after we accepted the connection
-msg = client_socket.recv(buffer_size).decode() # use buffer size in recv(). Also, decode the message. MESSAGE is recieved from client socket not server socket.
+msg = client_socket.recv(buffer_size).decode() 
 filename, EOF, hashRecieved, filesize = msg.split(sep)
 print(f'Filename: {filename}\nEnd of File: {EOF}\nHash: {hashRecieved}.')
 
 time.sleep(2)
-reply = 'OK'.encode() # Encoding to convert to binary in order to be able to send it.
-client_socket.sendall(reply) # Better to use if you want to send everything. 
+reply = 'OK'.encode()
+client_socket.sendall(reply)  
 
 progress = tqdm.tqdm(range(int(filesize)), f'Sending file {filename}', unit='B', unit_scale=True, unit_divisor=1024)
-
 
 with open(filename, 'wb') as r:
     while True:
@@ -48,7 +54,7 @@ else:
     client_socket.sendall(reply)
 
 time.sleep(1)
-server_socket.close() # close connection after job is done to close port and prevent security vulnerabilities. Connection and port are no longer needed.
+server_socket.close() 
 client_socket.close()
-# good practice to close manually but can occur automatically. 
+
 
