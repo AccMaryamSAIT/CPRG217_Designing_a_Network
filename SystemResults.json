@@ -1,0 +1,11 @@
+{
+    "machine": "BK-201",
+    "cpu": {
+        "vendorID": "",
+        "model": "",
+        "mname": "",
+        "cache": ""
+    },
+    "users": [],
+    "services": []
+}

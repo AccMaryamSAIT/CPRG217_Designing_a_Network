@@ -1,33 +1,29 @@
 import socket, hashlib, time, tqdm, os
 
-#cronjob and crontab
-#cron is a linux daemon drived from greek which means time
-#crond is used to run specific tasks on linux within specified time frames
-#5* command (***** command)
-#each star has a meaning:
-#1st = minute (0-59mins)
-#2nd = hour (0-23)
-#3rd = day of month (1-31)
-#4th = month (1-12)
-#5th = day of the week (sunday to saturday --> 0-6 (7 is sunday again))
-#leave stars if not using the values (e.g. every 15 minutes looks like 15 * * * *)
-#use commas between values if e.g. (every 15 and 45 minutes looks like 15,45 * * * *)
-#use dashes between values if e.g. (between 30-45 minutes looks like 30-45 * * * *)
-#command = e.g. (python3 /fullpath/filename) <-- wanting to run python file
-
 server_ip = '127.0.0.1'
 server_port = 5000
 buffer_size = 1024
 EOF = ':EOF:'
 sep = '}}'
 
-filename = 'path here'
+def chooseNewestFile():
+    date = 1
+    return date
+
+date = chooseNewestFile
+
+filename = f'SystemResults_{date}.json'
 filesize = os.stat(filename)
 filesize = filesize.st_size
 
-with open(filename, 'rb') as f:
-    hash = hashlib.md5(f.read()).hexdigest()
-    print(f'File hash is: {hash}')
+try:
+    with open(filename, 'rb') as f:
+        hash = hashlib.md5(f.read()).hexdigest()
+        print(f'File hash is: {hash}')
+except:
+    print("Error: " + filename + " file cannot be opened!")
+    print("Quitting code...")
+    exit(0)
 
 client_socket = socket.socket() # Or use with socket.socket(variables) as s
 client_socket.connect((server_ip, server_port)) # Send it as a tuple

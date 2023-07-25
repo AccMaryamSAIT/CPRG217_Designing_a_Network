@@ -10,6 +10,7 @@ into a JSON file ready to be used by the second script in the program.
 import os
 import socket  # Use socket module to get machine name
 import json 
+import datetime
 
 class Service:
     def __init__(self, name="", status=""):
@@ -291,7 +292,8 @@ for line in services:
 ### Convert information into json data file
 fullDict = machine.toDict()
 
-with open('SystemResults.json', 'wt') as jsonBody:
-    json.dump(fullDict, jsonBody, indent = 4)
+# Create a date variable to allow incrementation of files
+date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M') 
 
-#Add file incrementation. Use datetime module
+with open(f'SystemResults_{date}.json', 'wt') as jsonBody:
+    json.dump(fullDict, jsonBody, indent = 4)
