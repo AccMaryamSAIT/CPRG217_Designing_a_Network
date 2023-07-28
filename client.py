@@ -30,7 +30,7 @@ try:
         hash = hashlib.md5(f.read()).hexdigest()
         print(f'File hash is: {hash}')
 except:
-    print("Error: " + filename + " file cannot be opened!")
+    print(f"Error: {filename} file cannot be opened!")
     print("Quitting code...")
     exit(0)
 
@@ -56,6 +56,8 @@ if reply == 'OK':
             else:
                 client_socket.sendall(data)
                 progress.update(len(data))
+else:
+    print('Handshake process failed.')
 
 print('File sent successfully. Awaiting confirmation.')
 
