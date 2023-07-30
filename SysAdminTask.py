@@ -1,16 +1,17 @@
 """
 Name: SysAdminTask.py
 Authors: Roman Kapitoulski, Eric Russon, Maryam Bunama
-Version: 1.3
-Date: June 12, 2023
-Description: This code scans a linux machine and retrieves the machine's name, CPU info details, users and the groups 
-they belong to, and the list of running services using classes and objects. Then, it takes the data and places it 
-into a JSON file ready to be used by the second script in the program. 
+Version: 2.0
+Date: July 30, 2023
+Description: This code scans a linux machine and retrieves the machine's name, CPU info details, users and the groups
+they belong to, and the list of running services using classes and objects. Then, it takes the data and places it
+into a JSON file ready to be used by the second script in the program.
 """
 import os
 import socket  # Use socket module to get machine name
-import json 
+import json
 import datetime
+
 
 class Service:
     def __init__(self, name="", status=""):
@@ -28,7 +29,7 @@ class Service:
 
     def getStatus(self):
         return self._status
-    
+
     def asdict(self):
         return {"sname": self._name, "status": self._status}
 
@@ -63,7 +64,7 @@ class Cpu:
 
     def getCache(self):
         return self._cache
-    
+
     def asdict(self):
         return {"vendorID": self._vendorID, "model": self._model, "mname": self._modelName, "cache": self._cache}
 
@@ -123,10 +124,10 @@ class Machine:
 
     def getServices(self):
         return self._services
-    
+
     def asdict(self):
         return {"machine": self._name}
-    
+
     def toDict(self):
         # Places user and service objects in dictionary and returns a dictionary for all class attributes
         users = []
@@ -139,9 +140,9 @@ class Machine:
         for service in self.getServices():
             serviceJson = service.asdict()
             services.append(serviceJson)
-        
+
         return {"machine": self._name, "cpu": self._cpu.asdict(), "users": users, "services": services}
- 
+
 
 ### Retrieve machine name
 # Create a machine object
@@ -156,7 +157,7 @@ try:
     # Open the passwdFile and retrieve the usernames
     with open(passwdFile, 'rt') as file:
         unsortedList = []
-        for line in file:            
+        for line in file:
             # Remove any whitespace
             line = line.strip()
             # Get the username by splitting the line into parts separated by the ":" character.
@@ -171,21 +172,21 @@ try:
         while i != len(sortedList):
             user = sortedList[i]
             machine.addUser(User(user))
-            i += 1         
- 
-# If file not found return an error
+            i += 1
+
+        # If file not found return an error
 except FileNotFoundError:
     print(f"Error file: {passwdFile} not found")
 
 except RuntimeError:
     print("Unknown error has occured.")
-    
+
 ### Retrieve a list of groups for each user
 for user in machine.getUsers():
     # Use os.popen to execute a command on the user's terminal.
     # Use the "groups user" command to retrieve the groups the user is part of
     output = os.popen(f"groups {user.getName()}").read()
-    
+
     # Remove any whitespaces from output
     output = output.strip()
     # Split the output and obtain two items: 1. username 2. groups
@@ -197,7 +198,6 @@ for user in machine.getUsers():
     # Add the groups to the user object
     for group in groups:
         user.addGroup(group)
-
 
 ### Get CPU info
 # File path that contains CPU information
@@ -293,7 +293,8 @@ for line in services:
 fullDict = machine.toDict()
 
 # Create a date variable to allow incrementation of files
-date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M') 
+date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
 
-with open(f'SystemResults_{date}.json', 'wt') as jsonBody:
-    json.dump(fullDict, jsonBody, indent = 4)
+# Save the JSON file to the specified path.
+with open(f'/var/log/SysCheckLogs/SystemResults_{date}.json', 'wt') as jsonBody:
+    json.dump(fullDict, jsonBody, indent=4)
