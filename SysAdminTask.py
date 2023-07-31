@@ -293,7 +293,7 @@ for line in services:
 fullDict = machine.toDict()
 
 # Create a date variable to allow incrementation of files
-date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M')
+date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
 # Save the JSON file to the specified path.
 with open(f'/var/log/SysCheckLogs/SystemResults_{date}.json', 'wt') as jsonBody:

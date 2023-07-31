@@ -20,14 +20,15 @@ def splitFile(fileName):
     fileType, fileDate, fileEnd = fileName.split("_")
     year, month, day = fileDate.split("-")
     fileTime, fileType = fileEnd.split(".")
-    hour, minutes = fileTime.split("-")
-    #Append the information to a datetime list
+    hour, minutes, seconds = fileTime.split("-")
+    # Append the information to a datetime list
     dateTime = []
     dateTime.append(year)
     dateTime.append(month)
     dateTime.append(day)
     dateTime.append(hour)
     dateTime.append(minutes)
+    dateTime.append(seconds)
     return dateTime
 
 def chooseNewestFile(folder):
