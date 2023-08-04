@@ -1,8 +1,8 @@
 """
 Name: SysAdminTask.py
 Authors: Roman Kapitoulski, Eric Russon, Maryam Bunama
-Version: 2.0
-Date: July 30, 2023
+Version: 2.5
+Date: August 3, 2023
 Description: This code scans a linux machine and retrieves the machine's name, CPU info details, users and the groups
 they belong to, and the list of running services using classes and objects. Then, it takes the data and places it
 into a JSON file ready to be used by the second script in the program.
@@ -293,7 +293,7 @@ for line in services:
 fullDict = machine.toDict()
 
 # Create a date variable to allow incrementation of files
-date = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+date = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
 
 # Save the JSON file to the specified path.
 with open(f'/var/log/SysCheckLogs/SystemResults_{date}.json', 'wt') as jsonBody:
