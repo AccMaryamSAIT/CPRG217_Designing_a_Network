@@ -1,11 +1,12 @@
+#!/usr/bin/python3
 """
 Name: SysAdminTask.py
 Authors: Roman Kapitoulski, Eric Russon, Maryam Bunama
-Version: 2.5
-Date: August 3, 2023
+Version: 2.6
+Date: Aug 4, 2023
 Description: This code scans a linux machine and retrieves the machine's name, CPU info details, users and the groups
 they belong to, and the list of running services using classes and objects. Then, it takes the data and places it
-into a JSON file ready to be used by the second script in the program.
+into a JSON file ready to be used by the second script in the program. This script uses crontab to run on reboot.
 """
 import os
 import socket  # Use socket module to get machine name
