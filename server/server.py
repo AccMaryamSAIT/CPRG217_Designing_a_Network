@@ -1,10 +1,12 @@
+#!/usr/bin/python3
 """
 Name: server.py
 Authors: Roman Kapitoulski, Eric Russon, Maryam Bunama
-Version: 2.0
-Date: July 30, 2023
+Version: 2.1
+Date: Aug 4, 2023
 Description: This script recieves the JSON files sent by the Client.py program on client machines
-and stores it. It performs acknowledgement and error-checking throughout the process.
+and stores it. It performs acknowledgement and error-checking throughout the process. It will continue
+running until a connection was made and files were transferred.
 """
 
 import socket, time, hashlib, os, tqdm
